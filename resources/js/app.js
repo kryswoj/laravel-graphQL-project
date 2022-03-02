@@ -1,12 +1,15 @@
 import './bootstrap';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import ApolloClient from 'apollo-boost'
+import VueApollo from 'vue-apollo'
 
 import Post from './components/Post';
 import PostList from './components/PostList';
 
 window.Vue = require('vue').default;
 Vue.use(VueRouter);
+Vue.use(VueApollo)
 
 const routes = [
     {
@@ -22,6 +25,17 @@ const routes = [
     },
 ];
 
+
+
+const apolloClient = new ApolloClient({
+    // You should use an absolute URL here
+    uri: 'http://127.0.0.1:8000/graphql'
+});
+
+const apolloProvider = new VueApollo({
+    defaultClient: apolloClient,
+});
+
 const router = new VueRouter({
     routes,
     mode: 'history',
@@ -29,5 +43,6 @@ const router = new VueRouter({
 
 const app = new Vue({
     el: '#app',
-    router
+    router,
+    apolloProvider,
 });
